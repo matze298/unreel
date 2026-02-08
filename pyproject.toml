@@ -1,0 +1,64 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "intelliwatts"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "streamlit",
+    "google-generativeai",
+    "beautifulsoup4",
+    "requests",
+]
+
+[project.optional-dependencies]
+test = ["pytest", "pytest-cov"]
+dev = ["black", "pre-commit", "ruff", "ty"]
+
+# Hatch configuration
+[tool.hatch.build]
+# Include the app/ directory directly (no src/ layout)
+include = ["app/**"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+# uv configuration (dependency locking handled via uv.lock)
+[tool.uv]
+managed = true
+constraint-dependencies = ["bcrypt==4.3.0"]
+
+# Ruff configuration
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+fix = true
+
+# Google Python Style Guide alignment
+preview = true
+
+[tool.ruff.lint]
+select = ["ALL"]
+# Google-specific relaxations
+ignore = [
+    "CPY001", # No copyright added yet
+    "D203",   # One blank line before class (Google prefers no extra line)
+    "D213",   # Multi-line docstring summary on first line
+    "E501",   # Line length handled by formatter guidance
+    "FIX002", # Allow ToDo comments
+    "TRY301", # Allow to raise Exceptions within try blocks
+    "COM812", # Recommended ignore from ruff-format
+]
+
+
+# Docstring conventions: Google style
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S101"]
