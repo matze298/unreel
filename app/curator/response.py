@@ -1,5 +1,6 @@
 """Module responsible for generating insights from text or topics using the Gemini API."""
 
+from dataclasses import dataclass
 from typing import Any
 
 import orjson
@@ -8,13 +9,24 @@ from google import genai
 from google.genai import types
 
 
+@dataclass
+class Insight:
+    """Data class representing a single insight."""
+
+    emoji: str = ""
+    title: str = ""
+    explanation: str = ""
+    tag: str = ""
+    expansion: str = ""
+
+
 def generate_insights(
     api_key: str,
     source_text: str,
     *,
     is_topic_mode: bool,
     persona_instruction: str,
-) -> list[dict[str, Any]]:
+) -> list[Insight]:
     """The Brain: Sends text/topic to Gemini with instructions to expand/research.
 
     Args:
@@ -80,7 +92,8 @@ def generate_insights(
         if response.text is None:
             st.error("Gemini API Error: No text response received.")
             return []
-        return orjson.loads(response.text)
+        content: list[dict[str, Any]] = orjson.loads(response.text)
+        return [Insight(**item) for item in content]
 
     except Exception as e:  # noqa: BLE001
         st.error(f"Gemini API Error: {e}")
