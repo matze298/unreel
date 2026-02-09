@@ -3,14 +3,15 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "intelliwatts"
+name = "unreel"
 version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [
     "streamlit",
-    "google-generativeai",
+    "google-genai",
     "beautifulsoup4",
     "requests",
+    "orjson",
 ]
 
 [project.optional-dependencies]
