@@ -1,7 +1,5 @@
 """Main Streamlit app for UnReel: A knowledge synthesis tool that curates insights from articles or topics using the Gemini API."""
 
-import textwrap
-
 import streamlit as st
 
 from app.curator.response import generate_insights
@@ -75,31 +73,23 @@ if process and api_key and source_content:
         if ideas:
             st.markdown("---")
             for idea in ideas:
-                # Custom HTML Card
-                st.markdown(
-                    textwrap.dedent(f"""
-                    <div style="
-                        background-color: #262730;
-                        padding: 20px;
-                        border-radius: 12px;
-                        margin-bottom: 20px;
-                        border: 1px solid #444;
-                        box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+                # 1. Define the HTML with ZERO indentation to prevent Markdown "Code Block" errors.
+                # We use .strip() to remove the starting newline.
+                html_card = f"""
+<div style="background-color: #262730; padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #444; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 style="margin:0; color: #FFF; font-size: 22px;">{idea.emoji} {idea.title}</h3>
+        <span style="background-color: #333; color: #4CAF50; padding: 4px 10px; border-radius: 15px; font-size: 12px; font-weight: bold;">{idea.tag}</span>
+    </div>
+    <p style="color: #DDD; font-size: 16px; line-height: 1.6; margin-top: 15px;">{idea.explanation}</p>
+    <div style="background-color: #333; padding: 10px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #FFC107;">
+        <p style="color: #FFC107; font-size: 14px; margin: 0; font-weight: bold;">🚀 Deep Dive:</p>
+        <p style="color: #EEE; font-size: 14px; margin: 5px 0 0 0; font-style: italic;">{idea.expansion}</p>
+    </div>
+</div>
+""".strip()
 
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <h3 style="margin:0; color: #FFF; font-size: 22px;">{idea.emoji} {idea.title}</h3>
-                            <span style="background-color: #333; color: #4CAF50; padding: 4px 10px; border-radius: 15px; font-size: 12px; font-weight: bold;">{idea.tag}</span>
-                        </div>
-
-                        <p style="color: #DDD; font-size: 16px; line-height: 1.6; margin-top: 15px;">{idea.explanation}</p>
-
-                        <div style="background-color: #333; padding: 10px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #FFC107;">
-                            <p style="color: #FFC107; font-size: 14px; margin: 0; font-weight: bold;">🚀 Deep Dive:</p>
-                            <p style="color: #EEE; font-size: 14px; margin: 5px 0 0 0; font-style: italic;">{idea.expansion}</p>
-                        </div>
-                    </div>
-                    """),
-                    unsafe_allow_html=True,
-                )
+                # 2. Render safely
+                st.markdown(html_card, unsafe_allow_html=True)
 elif process and not api_key:
     st.error("🔑 You must enter your Gemini API key in the sidebar first!")
