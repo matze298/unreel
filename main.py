@@ -1,5 +1,7 @@
 """Main Streamlit app for UnReel: A knowledge synthesis tool that curates insights from articles or topics using the Gemini API."""
 
+import textwrap
+
 import streamlit as st
 
 from app.curator.response import generate_insights
@@ -75,7 +77,7 @@ if process and api_key and source_content:
             for idea in ideas:
                 # Custom HTML Card
                 st.markdown(
-                    f"""
+                    textwrap.dedent(f"""
                     <div style="
                         background-color: #262730;
                         padding: 20px;
@@ -96,7 +98,7 @@ if process and api_key and source_content:
                             <p style="color: #EEE; font-size: 14px; margin: 5px 0 0 0; font-style: italic;">{idea.expansion}</p>
                         </div>
                     </div>
-                    """,
+                    """),
                     unsafe_allow_html=True,
                 )
 elif process and not api_key:
