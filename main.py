@@ -6,7 +6,17 @@ from app.curator.response import generate_insights
 from app.parser.url import fetch_article_content
 
 # --- UI Layout ---
-st.set_page_config(page_title="UnReel", page_icon="🧠", layout="centered")
+st.set_page_config(page_title="UnReel", page_icon="🧠", layout="centered", initial_sidebar_state="auto")
+
+# 2. Add tags to allow safari to add to home screen and make it look like a native app
+st.markdown(
+    """
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    """,
+    unsafe_allow_html=True,
+)
 
 st.title("🧠 UnReel")
 
