@@ -36,7 +36,15 @@ st.caption("Curate, Expand, and Learn.")
 # Sidebar Controls
 with st.sidebar:
     st.header("⚙️ Configuration")
-    api_key = st.text_input("Gemini API Key", type="password")
+
+    try:
+        api_key = st.secrets.get("GEMINI_API_KEY")
+    except FileNotFoundError:
+        api_key = None
+
+    if not api_key:
+        api_key = st.text_input("Gemini API Key", type="password")
+
     st.markdown("---")
     selected_persona = st.selectbox("Choose Curator Persona", list(PERSONAS.keys()))
     persona_prompt = PERSONAS[selected_persona]

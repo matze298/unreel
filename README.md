@@ -19,3 +19,16 @@ To use on your iPhone:
 3. Open `http://<YOUR_COMPUTER_IP>:8501` in Safari.
   1. To find your computer IP, run `ipconfig`.
 4. Tap "Share" -> "Add to Home Screen".
+
+## Cloud Hosting (Free)
+To host the app online without running it on your computer, use **Streamlit Community Cloud**:
+
+1. **Push to GitHub**: Ensure your code is in a public GitHub repository.
+2. **Deploy**:
+   - Go to share.streamlit.io and sign up.
+   - Click **New app**, select your repository, and set the main file to `main.py`.
+   - Click **Deploy**.
+3. **Secrets**: In the app dashboard, go to **Settings** -> **Secrets** and add:
+   ```toml
+   GEMINI_API_KEY = "your-key-here"
+   ```
